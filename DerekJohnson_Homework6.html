@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Derek Johnson Homework 6</title>
+</head>
+
+<body>
+  <div id="buttons">
+    <button data-person="BMW">
+      BMW
+    </button>
+    <button data-person="Cisco">
+      Cisco
+    </button>
+
+    <button data-person="Cinelli">
+      Cinelli
+    </button>
+
+    <button data-person="The Beatles">
+      The Beatles
+    </button>
+    
+  </div>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $("button").on("click", function() {
+      var person = $(this).data("person");
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        person + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .done(function(response) {
+          var results = response.data;
+
+          
+          for (var i = 0; i < 11; i++) {
+            var gifDiv = $("<div class='item'>");
+
+            var rating = results[i].rating;
+
+            var p = $("<p>").text("Rating: " + rating);
+
+            var personImage = $("<img>");
+            personImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(personImage);
+
+            $("#gifs-appear-here").prepend(gifDiv);
+          }
+
+
+          //$(".gif").on("click", function() {
+           // var state = $(this).attr("data-state");
+          //if (state === "still") {
+           // $(this).attr("src", $(this).attr("data-animate"));
+           // $(this).attr("data-state", "animate");
+          //} else {
+           // $(this).attr("src", $(this).attr("data-still"));
+           // $(this).attr("data-state", "still");
+          // }
+        });
+    });
+  </script>
+</body>
+
+</html>
